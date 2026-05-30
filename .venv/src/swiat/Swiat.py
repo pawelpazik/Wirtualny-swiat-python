@@ -58,13 +58,13 @@ class Swiat(ABC):
             self.organizmy.extend(self.noworodki)
             self.noworodki.clear()
 
-    def obsluzKolizje(self, o):
+    def obsluzKolizje(self, o: Organizm):
         for inny in self.organizmy:
             if (inny != o and inny.czy_zyje() and o.czy_zyje() and
                     inny.get_x() == o.get_x() and inny.get_y() == o.get_y()):
                 o.kolizja(inny)
 
-    def dodajNowyOrgnanim(self, o):
+    def dodajNowyOrgnanim(self, o: Organizm):
         if generowanie:
             organizmy.add(o)
         else:
@@ -114,7 +114,7 @@ class Swiat(ABC):
             print(e, file=sys.stderr)
             return None
 
-    def generuj_plansze(self):
+    def generujPlansze(self):
         from wirtualnySwiat.utils.RejestrGatunkow import RejestrGatunkow
         from wirtualnySwiat.organizmy.zwierzeta.Czlowiek import Czlowiek
 

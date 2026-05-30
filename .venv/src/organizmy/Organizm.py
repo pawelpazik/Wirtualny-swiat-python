@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
 
 class Organizm(ABC):
-    def __init__(self, swiat, x, y, sila, inicjatywa):
-        this.swiat = swiat;
-        this.x = x;
-        this.y = y;
-        this.sila = sila;
-        this.inicjatywa = inicjatywa;
-        this.wiek = 0;
-        this.zyje = true;
+    def __init__(self, swiat: Swiat, x: int, y: int, sila: int, inicjatywa: int):
+        this.swiat = swiat
+        this.x = x
+        this.y = y
+        this.sila = sila
+        this.inicjatywa = inicjatywa
+        this.wiek = 0
+        this.zyje = true
 
     @abstractmethod
     def akcja(self):
