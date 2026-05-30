@@ -1,5 +1,3 @@
-from organizmy import Organizm
-from swiat import Swiat
 
 
 class Zwierze:
@@ -19,6 +17,7 @@ class Zwierze:
             nowePole = mozliwosci.get(random.nextInt(mozliwosci.size()))
             this.x = nowePole.x
             this.y = nowePole.y
+            swiat.przesunNaPlanszy(this, nowePole.x, nowePole.y)
 
     def kolizja(self, organizmDrugi):
         from Roslina import Roslina

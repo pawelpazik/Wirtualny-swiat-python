@@ -1,4 +1,6 @@
 from abc import ABC, abstractmethod
+from src.organizmy.zwierzeta.Zwierze import Zwierze
+from src.organizmy.rosliny.Roslina import Roslina
 
 class Organizm(ABC):
     def __init__(self, swiat: Swiat, x: int, y: int, sila: int, inicjatywa: int):

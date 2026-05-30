@@ -1,7 +1,7 @@
 import random
-from swiat import Swiat
-from Organizm import Organizm
-from Zwierze import Zwierze
+from src.organizmy.rosliny.Trawa import Trawa
+from src.organizmy.rosliny.Trawa import BarszczSosnowskiego
+
 
 class Roslina(Organizm):
     SZANSA_NA_ROZSIEW = 10

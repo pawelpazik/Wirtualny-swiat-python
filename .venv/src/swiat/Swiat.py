@@ -1,18 +1,26 @@
 from abc import ABC, abstractmethod
-from Punkt import Punkt
+from src.swiat.Punkt import Punkt
+from src.organizmy.Organizm import Organizm
+from src.swiat.SwiatSiatka import SwiatSiatka
+from src.swiat.SwiatHex import SwiatHex
+
 
 class Swiat(ABC):
     def __init__(self, x, y):
         self.x = x
         self.y = y
         self.organizmy = []
-        self.mapa = [[[]]]
         self.noworodki = []
         self.logi = []
+        self.warstwy = 2
 
-    @abstractmethod
-    def getSasiedniePola(self):
-        pass
+        self.plansza = [
+            [
+                [None for _ in range(self.warstwy)]
+                for _ in range(self.sizeY)
+            ]
+            for _ in range(self.sizeX)
+        ]
 
     @abstractmethod
     def getSasiedniePola(self) -> List[Point]:
@@ -65,16 +73,38 @@ class Swiat(ABC):
                 o.kolizja(inny)
 
     def dodajNowyOrgnanim(self, o: Organizm):
-        if generowanie:
-            organizmy.add(o)
+        if organizm.czy_jest_roslina():
+            warstwa = 0
         else:
-            noworodki.add(o)
+            warstwa = 1
+
+        self.plansza[organizm.x][organizm.y][warstwa] = organizm
+
+        if self.generowanie:
+            self.organizmy.append(organizm)
+        else:
+            self.noworodki.append(organizm)
+
+    def przesunNaPlanszy(self, organizm, nowy_x, nowy_y):
+        warstwa = 0 if type(organizm) == Roslina else 1
+
+        self.plansza[organizm.x][organizm.y][warstwa] = None
+
+        organizm.x = nowy_x
+        organizm.y = nowy_y
+
+        self.plansza[nowy_x][nowy_y][warstwa] = organizm
 
     def getOrganizmNaPolu(self, x, y):
-        for i in range(self.mapa[x][y]):
-            organizm = self.mapa[x][y][i]
-            if(organizm != None and organizm.czy_zyje()):
-                return organizm
+        zwierze = self.plansza[x][y][1]
+        if zwierze is not None:
+            return zwierze
+
+        roslina = self.plansza[x][y][0]
+        if roslina is not None:
+            return roslina
+
+        return None
 
     def getKonstruktor(self, nazwa_gatunku: str, x: int, y: int):
         try:
@@ -88,9 +118,9 @@ class Swiat(ABC):
             return None
 
     def stworzIDodajOrganizm(self, nazwa_gatunku: str, x: int, y: int):
-        nowy = self.stworz_organizm(nazwa_gatunku, x, y)
+        nowy = self.StworzOrganizm(nazwa_gatunku, x, y)
         if nowy is not None:
-            self.dodaj_nowy_organizm(nowy)
+            self.dodajNowyOrgnanim(nowy)
 
     def dodajLog(self, log: str):
         self.logi.append(log)

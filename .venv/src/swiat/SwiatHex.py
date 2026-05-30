@@ -1,14 +1,11 @@
-from Swiat import Swiat
-from Point import Point
-
 class SwiatHex(Swiat):
     def __init__(self, x: int, y: int):
         super().__init__(x, y)
 
-    def czy_hex(self) -> bool:
+    def czyHex(self) -> bool:
         return True
 
-    def get_sasiednie_pola(self, x: int, y: int):
+    def getSasiedniePola(self, x: int, y: int):
         sasiedzi = []
 
         parzyste = [
