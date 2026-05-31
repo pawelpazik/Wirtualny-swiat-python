@@ -1,67 +1,71 @@
 from abc import ABC, abstractmethod
-from src.organizmy.zwierzeta.Zwierze import Zwierze
-from src.organizmy.rosliny.Roslina import Roslina
+from typing import TYPE_CHECKING
+
+# Import potrzebny TYLKO do podpowiadania kodu (unika pętli)
+if TYPE_CHECKING:
+    from src.swiat.Swiat import Swiat
 
 class Organizm(ABC):
-    def __init__(self, swiat: Swiat, x: int, y: int, sila: int, inicjatywa: int):
-        this.swiat = swiat
-        this.x = x
-        this.y = y
-        this.sila = sila
-        this.inicjatywa = inicjatywa
-        this.wiek = 0
-        this.zyje = true
+    def __init__(self, swiat: 'Swiat', x: int, y: int, sila: int, inicjatywa: int):
+        self.swiat = swiat
+        self.x = x
+        self.y = y
+        self.sila = sila
+        self.inicjatywa = inicjatywa
+        self.wiek = 0
+        self.zyje = True
 
     @abstractmethod
     def akcja(self):
         pass
 
     @abstractmethod
-    def kolizja(self, organizmDrugi):
+    def kolizja(self, organizm_drugi: 'Organizm'):
         pass
 
     @abstractmethod
-    def getNazwa(self):
+    def get_nazwa(self) -> str:
         pass
 
     @abstractmethod
-    def stworzNowy(self) -> organizmDrugi:
+    def stworz_nowy(self, x: int, y: int) -> 'Organizm':
         pass
 
-    def czyucieka(self) -> bool:
-        return False;
+    def czy_ucieka(self) -> bool:
+        return False
 
-    def czyOdbilAtak(self, napastnik) -> bool:
-        return False;
+    def czy_odbil_atak(self, napastnik: 'Organizm') -> bool:
+        return False
 
-    def getSila(self):
-        return self.sila;
+    def get_sila(self) -> int:
+        return self.sila
 
-    def setSila(self, sila):
-        self.sila = sila;
+    def set_sila(self, sila: int):
+        self.sila = sila
 
-    def getInicjatywa(self):
-        return self.inicjatywa;
+    def get_inicjatywa(self) -> int:
+        return self.inicjatywa
 
-    def getX(self):
-        return self.x;
+    def get_x(self) -> int:
+        return self.x
 
-    def getY(self):
-        return self.y;
+    def get_y(self) -> int:
+        return self.y
 
-    def getWiek(self):
-        return self.wiek;
+    def get_wiek(self) -> int:
+        return self.wiek
 
-    def czyZyje(self):
-        return self.zyje;
+    def czy_zyje(self) -> bool:
+        return self.zyje
 
     def zabij(self):
-        self.zyje = false;
+        self.zyje = False
+        self.swiat.usun_z_planszy(self)
 
     @abstractmethod
-    def getZnak(self):
+    def get_znak(self) -> str:
         pass
 
     @abstractmethod
-    def getColor(self):
+    def get_kolor(self) -> str:
         pass

@@ -1,3 +1,6 @@
+from src.swiat.Swiat import Swiat
+from src.swiat.Punkt import Punkt
+
 class SwiatSiatka(Swiat):
     def __init__(self, x: int, y: int):
         super().__init__(x, y)

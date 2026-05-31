@@ -1,7 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
 import math
+
+from src.utils.MenedzerZapisu import MenedzerZapisu
+from src.utils.RejestrGatunkow import RejestrGatunkow
 from src.swiat.Swiat import Swiat
+from src.swiat.SwiatHex import SwiatHex
+from src.swiat.SwiatSiatka import SwiatSiatka
 
 # Tutaj powinieneś zaimportować swoje klasy backendowe, np:
 # from swiat_hex import SwiatHex
@@ -68,8 +73,12 @@ class OknoPowitalne:
         self.otworz_glowne_okno()
 
     def wczytaj_gre(self):
-        # self.swiat = MenedzerZapisu.wczytaj_gre()
-        self.otworz_glowne_okno()
+        wczytany_swiat = MenedzerZapisu.wczytaj_gre()
+        if wczytany_swiat is not None:
+            self.swiat = wczytany_swiat
+            self.otworz_glowne_okno()
+        else:
+            messagebox.showerror("Błąd", "Nie udało się wczytać gry (brak pliku lub błąd danych)!")
 
     def otworz_glowne_okno(self):
         # Niszczymy obecne okno (powitalne) i tworzymy okno gry
@@ -104,9 +113,24 @@ class GlowneOkno:
 
         tk.Button(panel_kontroli, text="Następna Tura", font=("Arial", 12, "bold"), command=self.wykonaj_ture).pack(
             side=tk.LEFT, padx=20)
-        tk.Button(panel_kontroli, text="Zapisz Grę", command=lambda: print("Zapisywanie...")).pack(side=tk.LEFT, padx=5)
-        tk.Button(panel_kontroli, text="Wczytaj Grę", command=lambda: print("Wczytywanie...")).pack(side=tk.LEFT,
-                                                                                                    padx=5)
+
+        # Zmienione komendy dla przycisków zapisu:
+        tk.Button(panel_kontroli, text="Zapisz Grę", command=self.zapisz_akcja).pack(side=tk.LEFT, padx=5)
+        tk.Button(panel_kontroli, text="Wczytaj Grę", command=self.wczytaj_akcja).pack(side=tk.LEFT, padx=5)
+
+    def zapisz_akcja(self):
+        MenedzerZapisu.zapisz_gre(self.swiat)
+        messagebox.showinfo("Zapis", "Zapisano grę pomyślnie!")
+
+    def wczytaj_akcja(self):
+        nowy_swiat = MenedzerZapisu.wczytaj_gre()
+        if nowy_swiat is not None:
+            # Całkowicie resetujemy Główne Okno
+            for widget in self.root.winfo_children():
+                widget.destroy()
+            GlowneOkno(self.root, nowy_swiat)
+        else:
+            messagebox.showerror("Błąd", "Nie udało się wczytać zapisu!")
 
     def zbuduj_panel_logow(self):
         ramka_logow = tk.Frame(self.root)

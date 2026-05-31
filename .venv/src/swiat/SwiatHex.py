@@ -1,11 +1,14 @@
-class SwiatHex(Swiat):
-    def __init__(self, x: int, y: int):
-        super().__init__(x, y)
+from src.swiat.Swiat import Swiat
+from src.swiat.Punkt import Punkt
 
-    def czyHex(self) -> bool:
+class SwiatHex(Swiat):
+    def __init__(self, size_x: int, size_y: int):
+        super().__init__(size_x, size_y)
+
+    def czy_hex(self) -> bool:
         return True
 
-    def getSasiedniePola(self, x: int, y: int):
+    def get_sasiednie_pola(self, x: int, y: int):
         sasiedzi = []
 
         parzyste = [
@@ -33,6 +36,6 @@ class SwiatHex(Swiat):
             ny = y + dy
 
             if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
-                sasiedzi.append(Point(nx, ny))
+                sasiedzi.append(Punkt(nx, ny))
 
         return sasiedzi

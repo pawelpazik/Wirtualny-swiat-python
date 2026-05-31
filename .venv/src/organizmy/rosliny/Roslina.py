@@ -1,7 +1,6 @@
 import random
-from src.organizmy.rosliny.Trawa import Trawa
-from src.organizmy.rosliny.Trawa import BarszczSosnowskiego
-
+from src.organizmy.Organizm import Organizm
+from src.organizmy.zwierzeta.Zwierze import Zwierze
 
 class Roslina(Organizm):
     SZANSA_NA_ROZSIEW = 10
@@ -15,15 +14,16 @@ class Roslina(Organizm):
             self.rozsiej()
 
     def kolizja(self, drugi: Organizm):
-        if isinstance(drugi, Zwierze) and not drugi.czyJestDrapieznikiem():
-            self.zabij()
+        if isinstance(drugi, Zwierze):
+            if not drugi.czy_jest_drapieznikiem:
+                self.zabij()
 
     def rozsiej(self):
-        opcje = self.swiat.getWolneSasiedniePola(self.x, self.y)
+        opcje = self.swiat.get_wolne_sasiednie_pola(self.x, self.y)
 
         if opcje:
             p = random.choice(opcje)
-            potomek = self.stworzNowy(p.x, p.y)
-            self.swiat.dodajNowyOrganizm(potomek)
-            self.swiat.dodajLog(f"Wyrosła nowa roślina: {potomek.getNazwa()}")
+            potomek = self.stworz_nowy(p.x, p.y)
+            self.swiat.dodaj_nowy_organizm(potomek)
+            self.swiat.dodaj_log(f"Wyrosła nowa roślina: {potomek.get_nazwa()}")
 

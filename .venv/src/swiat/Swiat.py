@@ -1,57 +1,61 @@
+import sys
+import random
+import importlib
 from abc import ABC, abstractmethod
+from typing import List, Optional, TYPE_CHECKING
 from src.swiat.Punkt import Punkt
-from src.organizmy.Organizm import Organizm
-from src.swiat.SwiatSiatka import SwiatSiatka
-from src.swiat.SwiatHex import SwiatHex
 
+if TYPE_CHECKING:
+    from src.organizmy.Organizm import Organizm
 
 class Swiat(ABC):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, size_x: int, size_y: int):
+        self.size_x = size_x
+        self.size_y = size_y
         self.organizmy = []
         self.noworodki = []
         self.logi = []
         self.warstwy = 2
+        self.generowanie = True
 
         self.plansza = [
             [
                 [None for _ in range(self.warstwy)]
-                for _ in range(self.sizeY)
+                for _ in range(self.size_y)
             ]
-            for _ in range(self.sizeX)
+            for _ in range(self.size_x)
         ]
 
     @abstractmethod
-    def getSasiedniePola(self) -> List[Point]:
+    def get_sasiednie_pola(self, x: int, y: int) -> List[Punkt]:
         pass
 
     @abstractmethod
-    def czyHex(self) -> bool:
+    def czy_hex(self) -> bool:
         pass
 
-    def getWolneSasiedniePola(self, x ,y):
-        wolne = [];
-        for p in self.getSasiedniePola(x, y):
+    def get_wolne_sasiednie_pola(self, x: int, y: int) -> List[Punkt]:
+        wolne = []
+        for p in self.get_sasiednie_pola(x, y):
             if self.get_organizm_na_polu(p.x, p.y) is None:
                 wolne.append(p)
         return wolne
 
-    def getBezpieczneSasiedniePola(self, x, y, sila) -> List[Punkt]:
+    def get_bezpieczne_sasiednie_pola(self, x: int, y: int, sila: int) -> List[Punkt]:
         bezpieczne = []
-        for p in self.getSasiedniePola(self, x, y):
+        for p in self.get_sasiednie_pola(x, y):
             org = self.get_organizm_na_polu(p.x, p.y)
-            if org is None or org.getSila() < sila:
+            if org is None or org.get_sila() < sila:
                 bezpieczne.append(p)
         return bezpieczne
 
-    def getCzlowiek(self):
+    def get_czlowiek(self) -> Optional['Organizm']:
         for o in self.organizmy:
-            if type(o).__name__ == 'Czlowiek' and o.czyZyje():
+            if type(o).__name__ == 'Czlowiek' and o.czy_zyje():
                 return o
         return None
 
-    def wykonajTure(self):
+    def wykonaj_ture(self):
         self.generowanie = False
         self.logi.clear()
         self.organizmy.sort(key=lambda o: (o.get_inicjatywa(), o.get_wiek()), reverse=True)
@@ -62,18 +66,21 @@ class Swiat(ABC):
                 o.akcja()
                 self.obsluz_kolizje(o)
 
-            self.organizmy = [o for o in self.organizmy if o.czy_zyje()]
-            self.organizmy.extend(self.noworodki)
-            self.noworodki.clear()
+        # Pythonowe czyszczenie list
+        self.organizmy = [o for o in self.organizmy if o.czy_zyje()]
+        self.organizmy.extend(self.noworodki)
+        self.noworodki.clear()
 
-    def obsluzKolizje(self, o: Organizm):
+    def obsluz_kolizje(self, o: 'Organizm'):
         for inny in self.organizmy:
             if (inny != o and inny.czy_zyje() and o.czy_zyje() and
                     inny.get_x() == o.get_x() and inny.get_y() == o.get_y()):
                 o.kolizja(inny)
 
-    def dodajNowyOrgnanim(self, o: Organizm):
-        if organizm.czy_jest_roslina():
+    def dodaj_nowy_organizm(self, organizm: 'Organizm'):
+        from src.organizmy.rosliny.Roslina import Roslina
+
+        if isinstance(organizm, Roslina):
             warstwa = 0
         else:
             warstwa = 1
@@ -85,17 +92,24 @@ class Swiat(ABC):
         else:
             self.noworodki.append(organizm)
 
-    def przesunNaPlanszy(self, organizm, nowy_x, nowy_y):
-        warstwa = 0 if type(organizm) == Roslina else 1
+    def przesun_na_planszy(self, organizm: 'Organizm', nowy_x: int, nowy_y: int):
+        from src.organizmy.rosliny.Roslina import Roslina
+        warstwa = 0 if isinstance(organizm, Roslina) else 1
 
         self.plansza[organizm.x][organizm.y][warstwa] = None
-
         organizm.x = nowy_x
         organizm.y = nowy_y
-
         self.plansza[nowy_x][nowy_y][warstwa] = organizm
 
-    def getOrganizmNaPolu(self, x, y):
+    def usun_z_planszy(self, organizm: 'Organizm'):
+        from src.organizmy.rosliny.Roslina import Roslina
+
+        warstwa = 0 if isinstance(organizm, Roslina) else 1
+
+        if self.plansza[organizm.x][organizm.y][warstwa] == organizm:
+            self.plansza[organizm.x][organizm.y][warstwa] = None
+
+    def get_organizm_na_polu(self, x: int, y: int) -> Optional['Organizm']:
         zwierze = self.plansza[x][y][1]
         if zwierze is not None:
             return zwierze
@@ -106,7 +120,7 @@ class Swiat(ABC):
 
         return None
 
-    def getKonstruktor(self, nazwa_gatunku: str, x: int, y: int):
+    def get_konstruktor(self, nazwa_gatunku: str, x: int, y: int):
         try:
             modul_nazwa, klasa_nazwa = nazwa_gatunku.rsplit('.', 1)
             modul = importlib.import_module(modul_nazwa)
@@ -117,16 +131,16 @@ class Swiat(ABC):
             print(e, file=sys.stderr)
             return None
 
-    def stworzIDodajOrganizm(self, nazwa_gatunku: str, x: int, y: int):
-        nowy = self.StworzOrganizm(nazwa_gatunku, x, y)
+    def stworz_i_dodaj_organizm(self, nazwa_gatunku: str, x: int, y: int):
+        nowy = self.get_konstruktor(nazwa_gatunku, x, y)
         if nowy is not None:
-            self.dodajNowyOrgnanim(nowy)
+            self.dodaj_nowy_organizm(nowy)
 
-    def dodajLog(self, log: str):
+    def dodaj_log(self, log: str):
         self.logi.append(log)
 
-    def getKonstruktorDoOdczytu(self, nazwa_gatunku: str, x: int, y: int, sila: float, wiek: int):
-        from wirtualnySwiat.utils.RejestrGatunkow import RejestrGatunkow
+    def get_konstruktor_do_odczytu(self, nazwa_gatunku: str, x: int, y: int, sila: float, wiek: int):
+        from src.utils.RejestrGatunkow import RejestrGatunkow
 
         sciezka_do_klasy = RejestrGatunkow.get_nazwy_klas().get(nazwa_gatunku)
 
@@ -144,9 +158,9 @@ class Swiat(ABC):
             print(e, file=sys.stderr)
             return None
 
-    def generujPlansze(self):
-        from wirtualnySwiat.utils.RejestrGatunkow import RejestrGatunkow
-        from wirtualnySwiat.organizmy.zwierzeta.Czlowiek import Czlowiek
+    def generuj_plansze(self):
+        from src.utils.RejestrGatunkow import RejestrGatunkow
+        from src.organizmy.zwierzeta.Czlowiek import Czlowiek
 
         liczba_pol = self.size_x * self.size_y
         docelowa_liczba_organizmow = int(liczba_pol * 0.15)
@@ -156,7 +170,7 @@ class Swiat(ABC):
             dostepne_gatunki.remove("Czlowiek")
 
         if not dostepne_gatunki:
-            print("Błąd generowania: Rejestr gatunków jest pusty! Sprawdź plik konfiguracyjny.", file=sys.stderr)
+            print("Błąd generowania: Rejestr gatunków jest pusty!", file=sys.stderr)
             return
 
         dodano_gracza = False
@@ -183,25 +197,25 @@ class Swiat(ABC):
                 self.stworz_i_dodaj_organizm(sciezka_do_klasy, x, y)
                 udane_dodania += 1
 
-        print(f"Pomyślnie wygenerowano nowy świat. Dodano gracza oraz {udane_dodania} losowych organizmów.")
+        print(f"Pomyślnie wygenerowano nowy świat. Dodano gracza oraz {udane_dodania} organizmów.")
 
-    def getSizeX(self):
+    def get_size_x(self):
         return self.size_x
 
-    def getSizeY(self):
+    def get_size_y(self):
         return self.size_y
 
-    def setSizeX(self, size_x):
+    def set_size_x(self, size_x: int):
         self.size_x = size_x
 
-    def setSizeY(self, size_y):
+    def set_size_y(self, size_y: int):
         self.size_y = size_y
 
-    def getOrganizmy(self):
+    def get_organizmy(self):
         return self.organizmy
 
-    def getNoworodki(self):
+    def get_noworodki(self):
         return self.noworodki
 
-    def getLogi(self):
+    def get_logi(self):
         return self.logi
