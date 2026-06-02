@@ -9,35 +9,30 @@ class BarszczSosnowskiego(Roslina):
         super().__init__(swiat, x, y, sila)
         self.wiek = wiek
 
-
     def akcja(self):
         self.wiek += 1
         polaWokol = self.swiat.get_sasiednie_pola(self.x, self.y)
         for p in polaWokol:
-            xO = p.x
-            yO = p.y
-            ofiara = self.swiat.get_organizm_na_polu(xO, yO)
-            if (isinstance(ofiara, Zwierze)) and ofiara.czy_zyje():
+            ofiara = self.swiat.get_organizm_na_polu(p.x, p.y)
+            if isinstance(ofiara, Zwierze) and ofiara.czy_zyje():
                 if not ofiara.czy_odporny_na_barszcz():
                     ofiara.zabij()
-                    self.swiat.usun_z_planszy(ofiara)
-                    self.swiat.dodaj_log(self.get_nazwa() + "zabija zwierze w poblizu: " + ofiara.get_nazwa())
+                    self.swiat.dodaj_log(f"{self.get_nazwa()} zabija zwierze w poblizu: {ofiara.get_nazwa()}")
 
     def kolizja(self, drugi: Organizm):
         if isinstance(drugi, Zwierze):
-            if drugi.czy_zyje():
+            if drugi.czy_ucieka():
                 drugi.przesun_na_puste()
-                self.swiat.dodaj_log(drugi.get_nazwa() + "ucieka przed: " + self.get_nazwa())
-                return
-            if not drugi.czy_odporny_na_barszcz():
-                self.swiat.usun_z_planszy(ofiara)
-                drugi.zabij()
-                self.swiat.dodaj_log(drugi.get_nazwa() + " zjadl " + self.get_nazwa() + " i umiera");
+                self.swiat.dodaj_log(f"{drugi.get_nazwa()} ucieka przed: {self.get_nazwa()}")
                 return
 
-            self.swiat.dodaj_log(napastnik.get_nazwa() + " zjadl " + self.get_nazwa());
-            self.swiat.usun_z_planszy(ofiara)
-            self.zabij();
+            if not drugi.czy_odporny_na_barszcz():
+                drugi.zabij()
+                self.swiat.dodaj_log(f"{drugi.get_nazwa()} zjadl {self.get_nazwa()} i umiera")
+                return
+
+            self.swiat.dodaj_log(f"{drugi.get_nazwa()} zjadl {self.get_nazwa()}")
+            self.zabij()
 
     def stworz_nowy(self, x: int, y: int) -> Organizm:
         return BarszczSosnowskiego(self.swiat, x, y)

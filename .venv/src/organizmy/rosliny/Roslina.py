@@ -1,6 +1,5 @@
 import random
 from src.organizmy.Organizm import Organizm
-from src.organizmy.zwierzeta.Zwierze import Zwierze
 
 class Roslina(Organizm):
     SZANSA_NA_ROZSIEW = 10
@@ -14,10 +13,7 @@ class Roslina(Organizm):
             self.rozsiej()
 
     def kolizja(self, drugi: Organizm):
-        if isinstance(drugi, Zwierze):
-            if not drugi.czy_jest_drapieznikiem:
-                self.zabij()
-                self.swiat.usun_z_planszy(self)
+        pass
 
     def rozsiej(self):
         opcje = self.swiat.get_wolne_sasiednie_pola(self.x, self.y)

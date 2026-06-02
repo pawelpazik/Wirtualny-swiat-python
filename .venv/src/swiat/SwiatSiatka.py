@@ -22,6 +22,6 @@ class SwiatSiatka(Swiat):
             ny = y + dy
 
             if 0 <= nx < self.size_x and 0 <= ny < self.size_y:
-                sasiedzi.append(Point(nx, ny))
+                sasiedzi.append(Punkt(nx, ny))
 
         return sasiedzi

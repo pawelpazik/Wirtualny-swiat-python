@@ -19,33 +19,55 @@ class Zwierze(Organizm):
             self.swiat.przesun_na_planszy(self, nowe_pole.x, nowe_pole.y)
 
     def kolizja(self, drugi: 'Organizm'):
-        # Lokalny import zapobiegający pętli (importujemy roślinę tylko gdy jest walka)
+        if drugi is None:
+            return
+
         from src.organizmy.rosliny.Roslina import Roslina
 
         if type(self) == type(drugi):
             self.wroc_na_pozycje()
+            self.swiat.przywroc_na_plansze(drugi)
             if self.wiek > 3 and drugi.get_wiek() > 3:
                 self.rozmnoz()
-        elif isinstance(drugi, Roslina):
+            return
+
+        if isinstance(drugi, Roslina):
             drugi.kolizja(self)
+            if self.czy_zyje():
+                if not self.czy_jest_drapieznikiem():
+                    drugi.zabij()
+                    self.swiat.usun_z_planszy(drugi)
+                    self.swiat.dodaj_log(f"{self.get_nazwa()} zjada {drugi.get_nazwa()}")
+                else:
+                    pass
+            return
+
+        if drugi.czy_odbil_atak(self):
+            self.swiat.dodaj_log(f"{drugi.get_nazwa()} odbił atak {self.get_nazwa()}")
+            self.wroc_na_pozycje()
+            self.swiat.przywroc_na_plansze(drugi)
+            return
+
+        if self.czy_ucieka():
+            self.przesun_na_puste()
+            self.swiat.dodaj_log(f"{self.get_nazwa()} ucieka przed {drugi.get_nazwa()}")
+            self.swiat.przywroc_na_plansze(drugi)
+            return
+
+        if drugi.czy_ucieka():
+            drugi.przesun_na_puste()
+            self.swiat.dodaj_log(f"{drugi.get_nazwa()} ucieka przed {self.get_nazwa()}")
+            return
+
+        if self.get_sila() >= drugi.get_sila():
+            drugi.zabij()
+            self.swiat.usun_z_planszy(drugi)
+            self.swiat.dodaj_log(f"{self.get_nazwa()} zjada {drugi.get_nazwa()}")
         else:
-            if drugi.czy_odbil_atak(self):
-                self.swiat.dodaj_log(f"{drugi.get_nazwa()} odbił atak {self.get_nazwa()}")
-                self.wroc_na_pozycje()
-            elif self.czy_ucieka():
-                self.przesun_na_puste()
-                self.swiat.dodaj_log(f"{self.get_nazwa()} ucieka przed {drugi.get_nazwa()}")
-            elif drugi.czy_ucieka():
-                drugi.przesun_na_puste()
-                self.swiat.dodaj_log(f"{drugi.get_nazwa()} ucieka przed {self.get_nazwa()}")
-            elif self.get_sila() >= drugi.get_sila():
-                self.swiat.usun_z_planszy(drugi)
-                drugi.zabij()
-                self.swiat.dodaj_log(f"{self.get_nazwa()} zjada {drugi.get_nazwa()}")
-            else:
-                self.swiat.usun_z_planszy(self)
-                self.zabij()
-                self.swiat.dodaj_log(f"{drugi.get_nazwa()} pokonuje {self.get_nazwa()}")
+            self.zabij()
+            self.swiat.usun_z_planszy(self)
+            self.swiat.przywroc_na_plansze(drugi)
+            self.swiat.dodaj_log(f"{drugi.get_nazwa()} pokonuje {self.get_nazwa()}")
 
     def rozmnoz(self):
         opcje = self.swiat.get_wolne_sasiednie_pola(self.x, self.y)
@@ -53,25 +75,22 @@ class Zwierze(Organizm):
             p = random.choice(opcje)
             potomek = self.stworz_nowy(p.x, p.y)
             self.swiat.dodaj_nowy_organizm(potomek)
-            self.swiat.dodaj_log(f"Urodził się nowy {potomek.get_nazwa()}")
+            self.swiat.dodaj_log(f"Urodził się nowy gatunek: {potomek.get_nazwa()}")
 
     def wroc_na_pozycje(self):
-        self.x = self.p_x
-        self.y = self.p_y
+        self.swiat.przesun_na_planszy(self, self.p_x, self.p_y)
 
     def przesun_na_puste(self):
         opcje = self.swiat.get_wolne_sasiednie_pola(self.x, self.y)
         if opcje:
             p = random.choice(opcje)
-            self.x = p.x
-            self.y = p.y
+            self.swiat.przesun_na_planszy(self, p.x, p.y)
 
     def przesun_na_losowe(self):
         opcje = self.swiat.get_sasiednie_pola(self.x, self.y)
         if opcje:
             p = random.choice(opcje)
-            self.x = p.x
-            self.y = p.y
+            self.swiat.przesun_na_planszy(self, p.x, p.y)
 
     def czy_odporny_na_barszcz(self) -> bool:
         return False

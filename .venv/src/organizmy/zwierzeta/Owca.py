@@ -1,26 +1,26 @@
 from src.organizmy.zwierzeta.Zwierze import Zwierze
 from src.organizmy.Organizm import Organizm
 
-class Wilk(Zwierze):
+class Owca(Zwierze):
 
-    def __init__(self, swiat, x: int, y: int, sila: int = 9, wiek: int = 0):
-        super().__init__(swiat, x, y, sila, 5)
+    def __init__(self, swiat, x: int, y: int, sila: int = 4, wiek: int = 0):
+        super().__init__(swiat, x, y, sila, 4)
         self.wiek = wiek
 
     def czy_jest_drapieznikiem(self) -> bool:
-        return True
+        return False
 
     def stworz_nowy(self, x: int, y: int) -> Organizm:
-        return Wilk(self.swiat, x, y)
+        return Owca(self.swiat, x, y)
 
 
     def get_nazwa(self) -> str:
-        return "Wilk"
+        return "Owca"
 
 
     def get_znak(self) -> str:
-        return 'W'
+        return 'O'
 
 
     def get_kolor(self) -> str:
-        return "#8c8180"
+        return "#bdbdbd"

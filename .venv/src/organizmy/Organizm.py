@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
-# Import potrzebny TYLKO do podpowiadania kodu (unika pętli)
 if TYPE_CHECKING:
     from src.swiat.Swiat import Swiat
 

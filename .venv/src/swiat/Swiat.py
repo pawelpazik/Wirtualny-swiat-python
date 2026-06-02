@@ -66,25 +66,25 @@ class Swiat(ABC):
                 o.akcja()
                 self.obsluz_kolizje(o)
 
-        # Pythonowe czyszczenie list
         self.organizmy = [o for o in self.organizmy if o.czy_zyje()]
         self.organizmy.extend(self.noworodki)
         self.noworodki.clear()
 
     def obsluz_kolizje(self, o: 'Organizm'):
+        if not o.czy_zyje():
+            return
+        kolidujace = []
         for inny in self.organizmy:
-            if (inny != o and inny.czy_zyje() and o.czy_zyje() and
+            if (inny != o and inny.czy_zyje() and
                     inny.get_x() == o.get_x() and inny.get_y() == o.get_y()):
+                kolidujace.append(inny)
+        for inny in kolidujace:
+            if o.czy_zyje() and inny.czy_zyje():
                 o.kolizja(inny)
 
     def dodaj_nowy_organizm(self, organizm: 'Organizm'):
         from src.organizmy.rosliny.Roslina import Roslina
-
-        if isinstance(organizm, Roslina):
-            warstwa = 0
-        else:
-            warstwa = 1
-
+        warstwa = 0 if isinstance(organizm, Roslina) else 1
         self.plansza[organizm.x][organizm.y][warstwa] = organizm
 
         if self.generowanie:
@@ -96,18 +96,24 @@ class Swiat(ABC):
         from src.organizmy.rosliny.Roslina import Roslina
         warstwa = 0 if isinstance(organizm, Roslina) else 1
 
-        self.plansza[organizm.x][organizm.y][warstwa] = None
+        if self.plansza[organizm.x][organizm.y][warstwa] == organizm:
+            self.plansza[organizm.x][organizm.y][warstwa] = None
         organizm.x = nowy_x
         organizm.y = nowy_y
         self.plansza[nowy_x][nowy_y][warstwa] = organizm
 
     def usun_z_planszy(self, organizm: 'Organizm'):
         from src.organizmy.rosliny.Roslina import Roslina
-
         warstwa = 0 if isinstance(organizm, Roslina) else 1
-
         if self.plansza[organizm.x][organizm.y][warstwa] == organizm:
             self.plansza[organizm.x][organizm.y][warstwa] = None
+
+    def przywroc_na_plansze(self, organizm: 'Organizm'):
+        from src.organizmy.rosliny.Roslina import Roslina
+        if not organizm.czy_zyje():
+            return
+        warstwa = 0 if isinstance(organizm, Roslina) else 1
+        self.plansza[organizm.x][organizm.y][warstwa] = organizm
 
     def get_organizm_na_polu(self, x: int, y: int) -> Optional['Organizm']:
         zwierze = self.plansza[x][y][1]
@@ -117,7 +123,6 @@ class Swiat(ABC):
         roslina = self.plansza[x][y][0]
         if roslina is not None:
             return roslina
-
         return None
 
     def get_konstruktor(self, nazwa_gatunku: str, x: int, y: int):
@@ -186,7 +191,6 @@ class Swiat(ABC):
 
         while udane_dodania < docelowa_liczba_organizmow and licznik_bezpieczenstwa < 2000:
             licznik_bezpieczenstwa += 1
-
             x = random.randint(0, self.size_x - 1)
             y = random.randint(0, self.size_y - 1)
 
@@ -201,21 +205,15 @@ class Swiat(ABC):
 
     def get_size_x(self):
         return self.size_x
-
     def get_size_y(self):
         return self.size_y
-
     def set_size_x(self, size_x: int):
         self.size_x = size_x
-
     def set_size_y(self, size_y: int):
         self.size_y = size_y
-
     def get_organizmy(self):
         return self.organizmy
-
     def get_noworodki(self):
         return self.noworodki
-
     def get_logi(self):
         return self.logi

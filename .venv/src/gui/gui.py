@@ -250,6 +250,8 @@ class PanelGrySiatka(PanelGry):
     def odswiez(self):
         self.delete("all")  # Czyści całe płótno
 
+        font_styl = ("Arial", 14, "bold")
+
         for x in range(self.swiat.get_size_x()):
             for y in range(self.swiat.get_size_y()):
                 px = x * self.ROZMIAR_POLA
@@ -257,12 +259,21 @@ class PanelGrySiatka(PanelGry):
 
                 org = self.swiat.get_organizm_na_polu(x, y)
                 if org:
-                    # Rysujemy prostokąt w odpowiednim kolorze
+                    # Rysujemy prostokąt
                     self.create_rectangle(px, py, px + self.ROZMIAR_POLA, py + self.ROZMIAR_POLA, fill=org.get_kolor(),
                                           outline="black")
-                    # W Tkinterze tekst sam idealnie się środkuje względem punktu!
-                    self.create_text(px + self.ROZMIAR_POLA / 2, py + self.ROZMIAR_POLA / 2, text=org.get_znak(),
-                                     fill="white", font=("Arial", 14, "bold"))
+
+                    tx = px + self.ROZMIAR_POLA / 2
+                    ty = py + self.ROZMIAR_POLA / 2
+                    znak = org.get_znak()
+
+                    # Rysujemy czarną obwódkę (tekst przesunięty o 1 piksel w 8 stronach)
+                    przesuniecia = [(-1, -1), (1, -1), (-1, 1), (1, 1), (0, -1), (0, 1), (-1, 0), (1, 0)]
+                    for dx, dy in przesuniecia:
+                        self.create_text(tx + dx, ty + dy, text=znak, fill="black", font=font_styl)
+
+                    # Rysujemy główny, biały tekst na wierzchu
+                    self.create_text(tx, ty, text=znak, fill="white", font=font_styl)
                 else:
                     self.create_rectangle(px, py, px + self.ROZMIAR_POLA, py + self.ROZMIAR_POLA, fill="white",
                                           outline="lightgray")
@@ -347,6 +358,8 @@ class PanelGryHex(PanelGry):
     def odswiez(self):
         self.delete("all")
 
+        font_styl = ("Arial", 12, "bold")
+
         for x in range(self.swiat.get_size_x()):
             for y in range(self.swiat.get_size_y()):
                 cx, cy = self.wylicz_srodek(x, y)
@@ -355,7 +368,16 @@ class PanelGryHex(PanelGry):
                 org = self.swiat.get_organizm_na_polu(x, y)
                 if org:
                     self.create_polygon(punkty_hex, fill=org.get_kolor(), outline="black")
-                    self.create_text(cx, cy, text=org.get_znak(), fill="white", font=("Arial", 12, "bold"))
+
+                    znak = org.get_znak()
+
+                    # Rysujemy czarną obwódkę
+                    przesuniecia = [(-1, -1), (1, -1), (-1, 1), (1, 1), (0, -1), (0, 1), (-1, 0), (1, 0)]
+                    for dx, dy in przesuniecia:
+                        self.create_text(cx + dx, cy + dy, text=znak, fill="black", font=font_styl)
+
+                    # Rysujemy główny, biały tekst na wierzchu
+                    self.create_text(cx, cy, text=znak, fill="white", font=font_styl)
                 else:
                     self.create_polygon(punkty_hex, fill="white", outline="black")
 

@@ -5,7 +5,8 @@ class RejestrGatunkow:
         "Czlowiek": "src.organizmy.zwierzeta.Czlowiek.Czlowiek",
         "Trawa": "src.organizmy.rosliny.Trawa.Trawa",
         "Barszcz Sosnowskiego": "src.organizmy.rosliny.BarszczSosonowskiego.BarszczSosnowskiego",
-        "Wilk": "src.organizmy.zwierzeta.Wilk.Wilk"
+        "Wilk": "src.organizmy.zwierzeta.Wilk.Wilk",
+        "Owca": "src.organizmy.zwierzeta.Owca.Owca"
     }
 
     @classmethod
