@@ -4,7 +4,8 @@ class RejestrGatunkow:
     _gatunki = {
         "Czlowiek": "src.organizmy.zwierzeta.Czlowiek.Czlowiek",
         "Trawa": "src.organizmy.rosliny.Trawa.Trawa",
-        "Barszcz Sosnowskiego": "src.organizmy.rosliny.BarszczSosonowskiego.BarszczSosnowskiego"
+        "Barszcz Sosnowskiego": "src.organizmy.rosliny.BarszczSosonowskiego.BarszczSosnowskiego",
+        "Wilk": "src.organizmy.zwierzeta.Wilk.Wilk"
     }
 
     @classmethod

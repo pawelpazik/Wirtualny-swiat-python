@@ -16,8 +16,6 @@ class Zwierze(Organizm):
 
         if len(mozliwosci) > 0:
             nowe_pole = random.choice(mozliwosci)
-            self.x = nowe_pole.x
-            self.y = nowe_pole.y
             self.swiat.przesun_na_planszy(self, nowe_pole.x, nowe_pole.y)
 
     def kolizja(self, drugi: 'Organizm'):
@@ -41,9 +39,11 @@ class Zwierze(Organizm):
                 drugi.przesun_na_puste()
                 self.swiat.dodaj_log(f"{drugi.get_nazwa()} ucieka przed {self.get_nazwa()}")
             elif self.get_sila() >= drugi.get_sila():
+                self.swiat.usun_z_planszy(drugi)
                 drugi.zabij()
                 self.swiat.dodaj_log(f"{self.get_nazwa()} zjada {drugi.get_nazwa()}")
             else:
+                self.swiat.usun_z_planszy(self)
                 self.zabij()
                 self.swiat.dodaj_log(f"{drugi.get_nazwa()} pokonuje {self.get_nazwa()}")
 

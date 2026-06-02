@@ -17,6 +17,7 @@ class Roslina(Organizm):
         if isinstance(drugi, Zwierze):
             if not drugi.czy_jest_drapieznikiem:
                 self.zabij()
+                self.swiat.usun_z_planszy(self)
 
     def rozsiej(self):
         opcje = self.swiat.get_wolne_sasiednie_pola(self.x, self.y)

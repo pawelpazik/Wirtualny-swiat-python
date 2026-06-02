@@ -20,6 +20,7 @@ class BarszczSosnowskiego(Roslina):
             if (isinstance(ofiara, Zwierze)) and ofiara.czy_zyje():
                 if not ofiara.czy_odporny_na_barszcz():
                     ofiara.zabij()
+                    self.swiat.usun_z_planszy(ofiara)
                     self.swiat.dodaj_log(self.get_nazwa() + "zabija zwierze w poblizu: " + ofiara.get_nazwa())
 
     def kolizja(self, drugi: Organizm):
@@ -29,11 +30,13 @@ class BarszczSosnowskiego(Roslina):
                 self.swiat.dodaj_log(drugi.get_nazwa() + "ucieka przed: " + self.get_nazwa())
                 return
             if not drugi.czy_odporny_na_barszcz():
+                self.swiat.usun_z_planszy(ofiara)
                 drugi.zabij()
                 self.swiat.dodaj_log(drugi.get_nazwa() + " zjadl " + self.get_nazwa() + " i umiera");
                 return
 
             self.swiat.dodaj_log(napastnik.get_nazwa() + " zjadl " + self.get_nazwa());
+            self.swiat.usun_z_planszy(ofiara)
             self.zabij();
 
     def stworz_nowy(self, x: int, y: int) -> Organizm:
