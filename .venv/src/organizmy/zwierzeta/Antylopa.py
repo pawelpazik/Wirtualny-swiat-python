@@ -19,7 +19,7 @@ class Antylopa(Zwierze):
 
         for p1 in opcje_zasieg_1:
             wszystkie_opcje.append(p1)
-            opcje_zasieg_2 = self.swiat.get_sasiednie_pola(p1.x, p1.x)
+            opcje_zasieg_2 = self.swiat.get_sasiednie_pola(p1.x, p1.y)
             for p2 in opcje_zasieg_2:
                 wszystkie_opcje.append(p2)
 
