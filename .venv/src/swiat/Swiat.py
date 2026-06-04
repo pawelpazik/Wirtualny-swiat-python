@@ -74,7 +74,7 @@ class Swiat(ABC):
         if not o.czy_zyje():
             return
         kolidujace = []
-        for inny in self.organizmy:
+        for inny in self.organizmy + self.noworodki:
             if (inny != o and inny.czy_zyje() and
                     inny.get_x() == o.get_x() and inny.get_y() == o.get_y()):
                 kolidujace.append(inny)

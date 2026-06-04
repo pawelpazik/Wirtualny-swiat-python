@@ -8,12 +8,6 @@ from src.swiat.Swiat import Swiat
 from src.swiat.SwiatHex import SwiatHex
 from src.swiat.SwiatSiatka import SwiatSiatka
 
-# Tutaj powinieneś zaimportować swoje klasy backendowe, np:
-# from swiat_hex import SwiatHex
-# from swiat_siatka import SwiatSiatka
-# from menedzer_zapisu import MenedzerZapisu
-# from rejestr_gatunkow import RejestrGatunkow
-
 class OknoPowitalne:
     def __init__(self, root):
         self.root = root

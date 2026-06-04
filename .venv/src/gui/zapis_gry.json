@@ -1,7 +1,7 @@
 {
     "rozmiarX": 20,
     "rozmiarY": 20,
-    "czyHex": false,
+    "czyHex": true,
     "organizmy": [
 
     ]
