@@ -25,4 +25,4 @@ class Mlecz(Roslina):
         return 'M'
 
     def get_kolor(self) -> str:
-        return "#267d26"
+        return "#ffff00"

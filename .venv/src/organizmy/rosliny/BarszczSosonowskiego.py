@@ -44,4 +44,4 @@ class BarszczSosnowskiego(Roslina):
         return 'B'
 
     def get_kolor(self) -> str:
-        return "#d8ffbf"
+        return "#00ff99"

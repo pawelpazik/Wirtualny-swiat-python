@@ -36,4 +36,4 @@ class Lis(Zwierze):
 
 
     def get_kolor(self) -> str:
-        return "#8c8180"
+        return "#ff9900"

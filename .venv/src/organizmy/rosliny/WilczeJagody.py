@@ -25,4 +25,4 @@ class WilczeJagody(Roslina):
         return 'J'
 
     def get_kolor(self) -> str:
-        return "#267d26"
+        return "#cc0099"

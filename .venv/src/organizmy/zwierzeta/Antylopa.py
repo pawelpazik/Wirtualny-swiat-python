@@ -50,4 +50,4 @@ class Antylopa(Zwierze):
 
 
     def get_kolor(self) -> str:
-        return "#bdbdbd"
+        return "#cc6666"

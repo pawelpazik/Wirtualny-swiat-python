@@ -22,4 +22,4 @@ class Guarana(Roslina):
         return 'G'
 
     def get_kolor(self) -> str:
-        return "#267d26"
+        return "#ff3333"

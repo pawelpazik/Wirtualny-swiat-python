@@ -11,7 +11,7 @@ from src.swiat.SwiatSiatka import SwiatSiatka
 class OknoPowitalne:
     def __init__(self, root):
         self.root = root
-        self.root.title("Wirtualny Świat - Python Edition")
+        self.root.title("Wirtualny Świat - Python")
         self.root.geometry("400x300")
 
         self.root.eval('tk::PlaceWindow . center')
@@ -67,10 +67,9 @@ class OknoPowitalne:
             self.swiat = wczytany_swiat
             self.otworz_glowne_okno()
         else:
-            messagebox.showerror("Błąd", "Nie udało się wczytać gry (brak pliku lub błąd danych)!")
+            messagebox.showerror("Błąd", "Nie udało się wczytać gry!")
 
     def otworz_glowne_okno(self):
-        # Niszczymy obecne okno (powitalne) i tworzymy okno gry
         for widget in self.root.winfo_children():
             widget.destroy()
         GlowneOkno(self.root, self.swiat)
@@ -87,7 +86,6 @@ class GlowneOkno:
         self.zbuduj_panel_sterowania()
         self.zbuduj_panel_logow()
 
-        # Wybór odpowiedniego płótna (Canvas)
         if self.swiat.czy_hex():
             self.panel_gry = PanelGryHex(self.root, self.swiat, self)
         else:
@@ -103,7 +101,6 @@ class GlowneOkno:
         tk.Button(panel_kontroli, text="Następna Tura", font=("Arial", 12, "bold"), command=self.wykonaj_ture).pack(
             side=tk.LEFT, padx=20)
 
-        # Zmienione komendy dla przycisków zapisu:
         tk.Button(panel_kontroli, text="Zapisz Grę", command=self.zapisz_akcja).pack(side=tk.LEFT, padx=5)
         tk.Button(panel_kontroli, text="Wczytaj Grę", command=self.wczytaj_akcja).pack(side=tk.LEFT, padx=5)
 
@@ -114,7 +111,6 @@ class GlowneOkno:
     def wczytaj_akcja(self):
         nowy_swiat = MenedzerZapisu.wczytaj_gre()
         if nowy_swiat is not None:
-            # Całkowicie resetujemy Główne Okno
             for widget in self.root.winfo_children():
                 widget.destroy()
             GlowneOkno(self.root, nowy_swiat)
@@ -125,7 +121,7 @@ class GlowneOkno:
         ramka_logow = tk.Frame(self.root)
         ramka_logow.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.przestrzen_logow = tk.Text(ramka_logow, width=40, state=tk.DISABLED, bg="#f4f4f4")
+        self.przestrzen_logow = tk.Text(ramka_logow, width=60, state=tk.DISABLED, bg="#f4f4f4")
         scrollbar = tk.Scrollbar(ramka_logow, command=self.przestrzen_logow.yview)
         self.przestrzen_logow.config(yscrollcommand=scrollbar.set)
 
@@ -143,7 +139,7 @@ class GlowneOkno:
         for log in self.swiat.get_logi():
             self.przestrzen_logow.insert(tk.END, log + "\n")
         self.przestrzen_logow.config(state=tk.DISABLED)
-        self.przestrzen_logow.see(tk.END)  # Automatyczne przewijanie w dół
+        self.przestrzen_logow.see(tk.END)
 
 
 class PanelGry(tk.Canvas):
@@ -152,14 +148,12 @@ class PanelGry(tk.Canvas):
         self.swiat = swiat
         self.okno_glowne = okno_glowne
 
-        # Obsługa kliknięcia myszką do dodawania organizmów
         self.bind("<Button-1>", self.klikniecie_myszy)
 
-        # Zmuszamy Canvas do przyjmowania wciśnięć klawiatury
         self.focus_set()
 
     def klikniecie_myszy(self, event):
-        self.focus_set()  # Przywraca focus klawiatury na planszę po kliknięciu
+        self.focus_set()
         kafel = self.przelicz_piksele_na_wspolrzedne(event.x, event.y)
 
         if kafel is not None and self.swiat.get_organizm_na_polu(kafel[0], kafel[1]) is None:
@@ -173,7 +167,6 @@ class PanelGry(tk.Canvas):
             if nazwa_gatunku == "Czlowiek" and self.swiat.get_czlowiek() is not None:
                 continue
 
-            # Używamy sztuczki 'n=nazwa_gatunku' aby zapamiętać wartość w lambdzie!
             menu.add_command(
                 label=f"Dodaj {nazwa_gatunku}",
                 command=lambda n=nazwa_gatunku: self.dodaj_organizm(n, x, y)
@@ -235,7 +228,7 @@ class PanelGrySiatka(PanelGry):
         return None
 
     def odswiez(self):
-        self.delete("all")  # Czyści całe płótno
+        self.delete("all")
 
         font_styl = ("Arial", 14, "bold")
 
@@ -246,7 +239,6 @@ class PanelGrySiatka(PanelGry):
 
                 org = self.swiat.get_organizm_na_polu(x, y)
                 if org:
-                    # Rysujemy prostokąt
                     self.create_rectangle(px, py, px + self.ROZMIAR_POLA, py + self.ROZMIAR_POLA, fill=org.get_kolor(),
                                           outline="black")
 
@@ -254,12 +246,10 @@ class PanelGrySiatka(PanelGry):
                     ty = py + self.ROZMIAR_POLA / 2
                     znak = org.get_znak()
 
-                    # Rysujemy czarną obwódkę (tekst przesunięty o 1 piksel w 8 stronach)
                     przesuniecia = [(-1, -1), (1, -1), (-1, 1), (1, 1), (0, -1), (0, 1), (-1, 0), (1, 0)]
                     for dx, dy in przesuniecia:
                         self.create_text(tx + dx, ty + dy, text=znak, fill="black", font=font_styl)
 
-                    # Rysujemy główny, biały tekst na wierzchu
                     self.create_text(tx, ty, text=znak, fill="white", font=font_styl)
                 else:
                     self.create_rectangle(px, py, px + self.ROZMIAR_POLA, py + self.ROZMIAR_POLA, fill="white",
@@ -313,7 +303,6 @@ class PanelGryHex(PanelGry):
             self.okno_glowne.wykonaj_ture()
 
     def buduj_heksagon(self, cx, cy):
-        # Tworzy listę koordynatów [x1, y1, x2, y2...] dla narysowania polygonu
         punkty = []
         for i in range(6):
             kat_rad = math.pi / 180 * (60 * i)
@@ -330,14 +319,10 @@ class PanelGryHex(PanelGry):
         return srodek_x, srodek_y
 
     def przelicz_piksele_na_wspolrzedne(self, mysz_x, mysz_y):
-        # Szybka i prosta detekcja kolizji (brute-force tak jak w Javie)
-        # Przy małej mapie 20x20 działa wystarczająco szybko
         for x in range(self.swiat.get_size_x()):
             for y in range(self.swiat.get_size_y()):
                 cx, cy = self.wylicz_srodek(x, y)
-                # Oblicz dystans od środka hexu do myszki
                 dystans = math.hypot(mysz_x - cx, mysz_y - cy)
-                # Wymagany by kliknąć blisko środka (uproszczona matematyka kolizji koła wpisanego)
                 if dystans < (self.WYSOKOSC / 2.0):
                     return (x, y)
         return None
@@ -358,18 +343,14 @@ class PanelGryHex(PanelGry):
 
                     znak = org.get_znak()
 
-                    # Rysujemy czarną obwódkę
                     przesuniecia = [(-1, -1), (1, -1), (-1, 1), (1, 1), (0, -1), (0, 1), (-1, 0), (1, 0)]
                     for dx, dy in przesuniecia:
                         self.create_text(cx + dx, cy + dy, text=znak, fill="black", font=font_styl)
 
-                    # Rysujemy główny, biały tekst na wierzchu
                     self.create_text(cx, cy, text=znak, fill="white", font=font_styl)
                 else:
                     self.create_polygon(punkty_hex, fill="white", outline="black")
 
-
-# Aby uruchomić aplikację:
 if __name__ == "__main__":
     root = tk.Tk()
     app = OknoPowitalne(root)

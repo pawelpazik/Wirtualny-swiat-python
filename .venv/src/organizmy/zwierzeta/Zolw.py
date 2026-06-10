@@ -40,4 +40,4 @@ class Zolw(Zwierze):
 
 
     def get_kolor(self) -> str:
-        return "#bdbdbd"
+        return "#4d6600"

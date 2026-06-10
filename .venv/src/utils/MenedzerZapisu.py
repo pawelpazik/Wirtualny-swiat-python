@@ -14,7 +14,6 @@ class MenedzerZapisu:
         try:
             organizmy_dane = []
 
-            # Zbieramy informacje o każdym żyjącym organizmie
             for org in swiat.get_organizmy():
                 if org.czy_zyje():
                     dane_org = {
@@ -25,15 +24,12 @@ class MenedzerZapisu:
                         "wiek": org.get_wiek()
                     }
 
-                    # --- ZAPIS TARCZY ALZURA ---
-                    # Sprawdzamy czy dany organizm to klasa Czlowiek
                     if type(org).__name__ == "Czlowiek":
                         dane_org["czas_tarczy"] = org.get_czas_tarczy()
                         dane_org["cooldown"] = org.get_cooldown()
 
                     organizmy_dane.append(dane_org)
 
-            # Zbieramy globalne parametry świata
             stan_gry = {
                 "rozmiarX": swiat.get_size_x(),
                 "rozmiarY": swiat.get_size_y(),
@@ -41,7 +37,6 @@ class MenedzerZapisu:
                 "organizmy": organizmy_dane
             }
 
-            # Zapisujemy do pliku używając wbudowanej biblioteki JSON
             with open(MenedzerZapisu.SCIEZKA_ZAPISU, 'w', encoding='utf-8') as plik:
                 json.dump(stan_gry, plik, indent=4)
 
@@ -60,7 +55,6 @@ class MenedzerZapisu:
             rozmiar_y = stan_gry["rozmiarY"]
             czy_hex = stan_gry["czyHex"]
 
-            # Import lokalny, żeby uniknąć pętli
             from src.swiat.SwiatHex import SwiatHex
             from src.swiat.SwiatSiatka import SwiatSiatka
 
@@ -69,7 +63,6 @@ class MenedzerZapisu:
             else:
                 nowy_swiat = SwiatSiatka(rozmiar_x, rozmiar_y)
 
-            # Wymuszamy, by dodawane z pliku organizmy trafiały do głównej listy, a nie do noworodków
             nowy_swiat.generowanie = True
 
             organizmy_dane = stan_gry.get("organizmy", [])
@@ -83,10 +76,7 @@ class MenedzerZapisu:
                 )
 
                 if org is not None:
-                    # --- ODCZYT TARCZY ALZURA ---
                     if type(org).__name__ == "Czlowiek":
-                        # Używamy .get(), dzięki czemu jeśli plik JSON jest stary
-                        # i nie ma tarczy, użyje wartości domyślnej 0
                         czas = dane.get("czas_tarczy", 0)
                         cd = dane.get("cooldown", 0)
                         org.wczytaj_stan_tarczy(czas, cd)
