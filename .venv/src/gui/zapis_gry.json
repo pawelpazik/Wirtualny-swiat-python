@@ -3,6 +3,427 @@
     "rozmiarY": 20,
     "czyHex": true,
     "organizmy": [
-
+        {
+            "nazwaGatunku": "Lis",
+            "x": 7,
+            "y": 10,
+            "sila": 3,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Lis",
+            "x": 5,
+            "y": 17,
+            "sila": 3,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Lis",
+            "x": 3,
+            "y": 14,
+            "sila": 3,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Lis",
+            "x": 0,
+            "y": 11,
+            "sila": 3,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 8,
+            "y": 9,
+            "sila": 9,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 7,
+            "y": 4,
+            "sila": 9,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 0,
+            "y": 2,
+            "sila": 9,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 16,
+            "y": 1,
+            "sila": 9,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 7,
+            "y": 3,
+            "sila": 9,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilk",
+            "x": 8,
+            "y": 7,
+            "sila": 9,
+            "wiek": 1
+        },
+        {
+            "nazwaGatunku": "Czlowiek",
+            "x": 7,
+            "y": 15,
+            "sila": 5,
+            "wiek": 7,
+            "czas_tarczy": 2,
+            "cooldown": 5
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 14,
+            "y": 2,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Cyber Owca",
+            "x": 3,
+            "y": 2,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Antylopa",
+            "x": 18,
+            "y": 18,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 16,
+            "y": 5,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 0,
+            "y": 1,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 18,
+            "y": 3,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Antylopa",
+            "x": 3,
+            "y": 6,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Cyber Owca",
+            "x": 9,
+            "y": 6,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 11,
+            "y": 18,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Cyber Owca",
+            "x": 1,
+            "y": 11,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Owca",
+            "x": 4,
+            "y": 14,
+            "sila": 4,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Cyber Owca",
+            "x": 4,
+            "y": 1,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Zolw",
+            "x": 6,
+            "y": 9,
+            "sila": 2,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Zolw",
+            "x": 11,
+            "y": 15,
+            "sila": 2,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Zolw",
+            "x": 13,
+            "y": 18,
+            "sila": 2,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 18,
+            "y": 6,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Barszcz Sosnowskiego",
+            "x": 10,
+            "y": 2,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Guarana",
+            "x": 2,
+            "y": 13,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilcze Jagody",
+            "x": 11,
+            "y": 17,
+            "sila": 99,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilcze Jagody",
+            "x": 11,
+            "y": 6,
+            "sila": 99,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Trawa",
+            "x": 4,
+            "y": 15,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 5,
+            "y": 7,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 0,
+            "y": 9,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Barszcz Sosnowskiego",
+            "x": 15,
+            "y": 13,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Trawa",
+            "x": 12,
+            "y": 6,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Barszcz Sosnowskiego",
+            "x": 19,
+            "y": 14,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Barszcz Sosnowskiego",
+            "x": 11,
+            "y": 11,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Trawa",
+            "x": 3,
+            "y": 14,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Guarana",
+            "x": 14,
+            "y": 17,
+            "sila": 0,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Barszcz Sosnowskiego",
+            "x": 11,
+            "y": 3,
+            "sila": 10,
+            "wiek": 7
+        },
+        {
+            "nazwaGatunku": "Wilcze Jagody",
+            "x": 10,
+            "y": 4,
+            "sila": 99,
+            "wiek": 6
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 18,
+            "y": 7,
+            "sila": 0,
+            "wiek": 5
+        },
+        {
+            "nazwaGatunku": "Wilcze Jagody",
+            "x": 10,
+            "y": 18,
+            "sila": 99,
+            "wiek": 5
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 17,
+            "y": 5,
+            "sila": 0,
+            "wiek": 4
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 0,
+            "y": 8,
+            "sila": 0,
+            "wiek": 4
+        },
+        {
+            "nazwaGatunku": "Trawa",
+            "x": 13,
+            "y": 5,
+            "sila": 0,
+            "wiek": 3
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 5,
+            "y": 3,
+            "sila": 0,
+            "wiek": 3
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 19,
+            "y": 6,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 5,
+            "y": 6,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Trawa",
+            "x": 13,
+            "y": 6,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 19,
+            "y": 7,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Wilcze Jagody",
+            "x": 9,
+            "y": 18,
+            "sila": 99,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 5,
+            "y": 0,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 6,
+            "y": 2,
+            "sila": 0,
+            "wiek": 2
+        },
+        {
+            "nazwaGatunku": "Guarana",
+            "x": 3,
+            "y": 12,
+            "sila": 0,
+            "wiek": 1
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 0,
+            "y": 7,
+            "sila": 0,
+            "wiek": 1
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 4,
+            "y": 0,
+            "sila": 0,
+            "wiek": 1
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 6,
+            "y": 7,
+            "sila": 0,
+            "wiek": 0
+        },
+        {
+            "nazwaGatunku": "Mlecz",
+            "x": 3,
+            "y": 0,
+            "sila": 0,
+            "wiek": 0
+        }
     ]
 }

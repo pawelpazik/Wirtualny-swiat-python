@@ -86,8 +86,12 @@ class Czlowiek(Zwierze):
     def get_znak(self) -> str:
         return '&'
 
-    def get_trwanie_umiejetnosci(self) -> int:
+    def get_czas_tarczy(self) -> int:
         return self.trwanie_umiejetnosci
 
-    def get_cooldown_umiejetnosci(self) -> int:
+    def get_cooldown(self) -> int:
         return self.cooldown_umiejetnosci
+
+    def wczytaj_stan_tarczy(self, czas: int, cd: int):
+        self.trwanie_umiejetnosci = czas
+        self.cooldown = cd

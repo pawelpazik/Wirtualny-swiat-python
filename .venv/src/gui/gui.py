@@ -14,25 +14,21 @@ class OknoPowitalne:
         self.root.title("Wirtualny Świat - Python Edition")
         self.root.geometry("400x300")
 
-        # Wyśrodkowanie okna na ekranie
         self.root.eval('tk::PlaceWindow . center')
 
         self.swiat = None
         self.zbuduj_panel_powitalny()
 
     def zbuduj_panel_powitalny(self):
-        # Tytuł
         lbl_tytul = tk.Label(self.root, text="WIRTUALNY ŚWIAT", font=("Arial", 24, "bold"))
         lbl_tytul.pack(pady=20)
 
-        # Wybór planszy (Radio Buttons)
         self.typ_planszy = tk.StringVar(value="Hex")
         ramka_radio = tk.Frame(self.root)
         ramka_radio.pack()
         tk.Radiobutton(ramka_radio, text="Plansza Hex", variable=self.typ_planszy, value="Hex").pack(side=tk.LEFT)
         tk.Radiobutton(ramka_radio, text="Plansza Siatka", variable=self.typ_planszy, value="Siatka").pack(side=tk.LEFT)
 
-        # Pola do wpisywania rozmiarów
         ramka_rozmiar = tk.Frame(self.root)
         ramka_rozmiar.pack(pady=15)
 
@@ -46,7 +42,6 @@ class OknoPowitalne:
         self.pole_y.insert(0, "20")
         self.pole_y.grid(row=1, column=1)
 
-        # Przyciski akcji
         ramka_przyciski = tk.Frame(self.root)
         ramka_przyciski.pack(pady=10)
         tk.Button(ramka_przyciski, text="Start gry!", command=self.start_gry, bg="lightgreen").pack(side=tk.LEFT,
@@ -172,8 +167,6 @@ class PanelGry(tk.Canvas):
 
     def pokaz_menu(self, x, y, ekran_x, ekran_y):
         menu = tk.Menu(self, tearoff=0)
-        # Zakładam że RejestrGatunkow.get_nazwy_klas() zwraca słownik
-        # np. {"Wilk": "sciezka.do.Wilk", "Owca": ...}
         moje_gatunki = RejestrGatunkow.get_nazwy_klas()
 
         for nazwa_gatunku, sciezka in moje_gatunki.items():

@@ -17,13 +17,21 @@ class MenedzerZapisu:
             # Zbieramy informacje o każdym żyjącym organizmie
             for org in swiat.get_organizmy():
                 if org.czy_zyje():
-                    organizmy_dane.append({
+                    dane_org = {
                         "nazwaGatunku": org.get_nazwa(),
                         "x": org.get_x(),
                         "y": org.get_y(),
                         "sila": org.get_sila(),
                         "wiek": org.get_wiek()
-                    })
+                    }
+
+                    # --- ZAPIS TARCZY ALZURA ---
+                    # Sprawdzamy czy dany organizm to klasa Czlowiek
+                    if type(org).__name__ == "Czlowiek":
+                        dane_org["czas_tarczy"] = org.get_czas_tarczy()
+                        dane_org["cooldown"] = org.get_cooldown()
+
+                    organizmy_dane.append(dane_org)
 
             # Zbieramy globalne parametry świata
             stan_gry = {
@@ -73,11 +81,20 @@ class MenedzerZapisu:
                     dane["sila"],
                     dane["wiek"]
                 )
+
                 if org is not None:
+                    # --- ODCZYT TARCZY ALZURA ---
+                    if type(org).__name__ == "Czlowiek":
+                        # Używamy .get(), dzięki czemu jeśli plik JSON jest stary
+                        # i nie ma tarczy, użyje wartości domyślnej 0
+                        czas = dane.get("czas_tarczy", 0)
+                        cd = dane.get("cooldown", 0)
+                        org.wczytaj_stan_tarczy(czas, cd)
+
                     nowy_swiat.dodaj_nowy_organizm(org)
 
             nowy_swiat.generowanie = False
-            print("Gra została pomyślnie wczytana z pliku.")
+            print("Gra została pomyślnie wczytana z pliku JSON.")
             return nowy_swiat
 
         except FileNotFoundError:
