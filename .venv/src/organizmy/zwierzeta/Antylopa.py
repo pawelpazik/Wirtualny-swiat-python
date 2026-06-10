@@ -27,7 +27,6 @@ class Antylopa(Zwierze):
 
         if unikalne_opcje:
             nowe_pole = random.choice(unikalne_opcje)
-            print(f"DEBUG: Antylopa przeskoczyła z ({self.x}, {self.y}) na ({nowe_pole.x}, {nowe_pole.y})")
             self.swiat.przesun_na_planszy(self, nowe_pole.x, nowe_pole.y)
 
 

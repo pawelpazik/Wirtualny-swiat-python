@@ -201,6 +201,7 @@ class Swiat(ABC):
                 self.stworz_i_dodaj_organizm(sciezka_do_klasy, x, y)
                 udane_dodania += 1
 
+        self.organizmy.sort(key=lambda o: (o.get_inicjatywa(), o.get_wiek()), reverse=True)
         print(f"Pomyślnie wygenerowano nowy świat. Dodano gracza oraz {udane_dodania} organizmów.")
 
     def get_size_x(self):
